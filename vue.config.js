@@ -35,6 +35,16 @@ module.exports = {
       warnings: true,
       errors: true,
     },
+    proxy: {
+      '/net-easy': {
+        target: 'http://localhost:3000',
+        ws: true,
+        changeOrigin: true,
+        pathRewrite: {
+          '/net-easy': ''
+        }
+      }
+    }
   },
   pluginOptions: {
     'style-resources-loader': {
