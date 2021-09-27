@@ -2,8 +2,8 @@
  * @Description:
  * @Author: ZY
  * @Date: 2020-12-28 17:18:24
- * @LastEditors: ZY
- * @LastEditTime: 2021-01-20 15:18:01
+ * @LastEditors: yyl
+ * @LastEditTime: 2021-09-26 01:21:09
  */
 
 export default {
@@ -45,6 +45,10 @@ export default {
     'menu1-3': '菜单 1-3',
     menu2: '菜单 2',
     table: '表格',
+    netEasy: '网易云音乐',
+    songList: '歌单',
+    mySongList: '我的歌单',
+    netEasyLogin: '网易登录',
     dynamicTable: '动态表格',
     draggableTable: '可拖拽表格',
     inlineEditTable: '表格内编辑',

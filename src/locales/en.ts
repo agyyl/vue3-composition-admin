@@ -2,8 +2,8 @@
  * @Description:
  * @Author: ZY
  * @Date: 2020-12-28 17:18:17
- * @LastEditors: ZY
- * @LastEditTime: 2021-01-20 15:18:42
+ * @LastEditors: yyl
+ * @LastEditTime: 2021-09-26 01:21:27
  */
 
 export default {
@@ -44,6 +44,10 @@ export default {
     'menu1-2-2': 'Menu 1-2-2',
     'menu1-3': 'Menu 1-3',
     menu2: 'Menu 2',
+    netEasy: 'Net Nasy Music',
+    songList: 'Song List',
+    netEasyLogin: 'Net Easy Login',
+    mySongList: 'My Song List',
     table: 'Table',
     dynamicTable: 'Dynamic Table',
     draggableTable: 'Draggable Table',
