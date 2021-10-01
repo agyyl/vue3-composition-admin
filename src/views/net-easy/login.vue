@@ -35,15 +35,15 @@
         />
       </div>
 
-      <el-form-item prop="username">
+      <el-form-item prop="email">
         <span class="svg-container">
           <i class="el-icon-user" />
         </span>
         <el-input
           ref="userNameRef"
-          v-model="loginForm.username"
-          :placeholder="t('login.username')"
-          name="username"
+          v-model="loginForm.email"
+          :placeholder="t('login.email')"
+          name="email"
           type="text"
           tabindex="1"
           autocomplete="on"
@@ -95,11 +95,11 @@
 
       <div style="position:relative">
         <div class="tips">
-          <span>{{ t('login.username') }} : admin </span>
+          <span>{{ t('login.email') }} : admin </span>
           <span>{{ t('login.password') }} : {{ t('login.any') }} </span>
         </div>
         <div class="tips">
-          <span>{{ t('login.username') }} : editor </span>
+          <span>{{ t('login.email') }} : editor </span>
           <span>{{ t('login.password') }} : {{ t('login.any') }} </span>
         </div>
       </div>
@@ -133,7 +133,7 @@ import LangSelect from '@/components/lang_select/Index.vue'
 import { isValidUsername } from '@/utils/validate'
 import { useRoute, LocationQuery, useRouter } from 'vue-router'
 import { useStore } from '@/store'
-import { UserActionTypes } from '@/store/modules/user/action-types'
+import { NetEasyActionTypes } from '@/store/modules/neteasy/action-types.ts'
 import { useI18n } from 'vue-i18n'
 
 export default defineComponent({
@@ -151,11 +151,11 @@ export default defineComponent({
     const { t } = useI18n()
     const state = reactive({
       loginForm: {
-        username: 'admin',
+        email: 'admin',
         password: '111111'
       },
       loginRules: {
-        username: [{
+        email: [{
           validator: userNameRef,
           trigger: 'blur'
         }],
@@ -189,6 +189,8 @@ export default defineComponent({
       },
       checkCapslock: (e: KeyboardEvent) => {
         const { key } = e
+        // chrome 选择保存的用户名密码, 会触发 keyup 事件, 但是 e 里没有 key 值
+        if (!key) return
         state.capsTooltip =
           key !== null && key.length === 1 && key >= 'A' && key <= 'Z'
       },
@@ -206,7 +208,7 @@ export default defineComponent({
         (loginFormRef.value as any).validate(async(valid: boolean) => {
           if (valid) {
             state.loading = true
-            await store.dispatch(UserActionTypes.ACTION_LOGIN, state.loginForm)
+            await store.dispatch(NetEasyActionTypes.ACTION_NET_EASY_LOGIN, state.loginForm)
             router
               .push({
                 path: state.redirect || '/',
@@ -243,7 +245,7 @@ export default defineComponent({
     })
 
     onMounted(() => {
-      if (state.loginForm.username === '') {
+      if (state.loginForm.email === '') {
         (userNameRef.value as any).focus()
       } else if (state.loginForm.password === '') {
         (passwordRef.value as any).focus()

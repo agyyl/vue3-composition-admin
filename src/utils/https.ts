@@ -14,9 +14,25 @@ const https = (hasToken: Boolean = true) => {
     baseURL: networkConfig.host,
     headers: {
       token: hasToken ? useStore().state.user.token : ''
+      // withCredentials: hasToken ? !useStore().state.user.token || true : ''
     }
   }
   return new HttpClient(config)
 }
 
 export default https
+
+export const nHttps = (hasToken: Boolean = true) => {
+  const config: HttpClientConfig = {
+    baseURL: networkConfig.nHost,
+    headers: {
+      // token: hasToken ? useStore().state.user.token : '',
+      withCredentials: true
+      // withCredentials: hasToken ? !useStore().state.user.token || true : ''
+    }
+  }
+  if (hasToken) {
+    console.log(hasToken, 'hasToken')
+  }
+  return new HttpClient(config)
+}

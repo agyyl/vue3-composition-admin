@@ -17,7 +17,7 @@ export interface UserState{
 }
 
 export const state: UserState = {
-  token: getToken() || 'true',
+  token: getToken() || '',
   name: '',
   avatar: '',
   introduction: '',

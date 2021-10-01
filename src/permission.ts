@@ -36,6 +36,7 @@ router.beforeEach(async(to: RouteLocationNormalized, _: RouteLocationNormalized,
   const store = useStore()
   // Determine whether the user has logged in
   if (useStore().state.user.token) {
+    console.log(to, 'to')
     if (to.path === '/login') {
       // If is logged in, redirect to the home page
       next({ path: '/' })
@@ -46,7 +47,7 @@ router.beforeEach(async(to: RouteLocationNormalized, _: RouteLocationNormalized,
         try {
           // Note: roles must be a object array! such as: ['admin'] or ['developer', 'editor']
           await store.dispatch(UserActionTypes.ACTION_GET_USER_INFO, undefined)
-          const roles = store.state.user.roles || ['roles']
+          const roles = store.state.user.roles
           // Generate accessible routes map based on role
           store.dispatch(PermissionActionType.ACTION_SET_ROUTES, roles)
           // Dynamically add accessible routes

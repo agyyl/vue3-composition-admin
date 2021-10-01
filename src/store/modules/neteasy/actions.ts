@@ -7,11 +7,11 @@
  */
 import { ActionTree, ActionContext } from 'vuex'
 import { RootState, useStore } from '@/store'
-import { state, UserState } from './state'
+import { state, NetEasyState } from './state'
 import { Mutations } from './mutations'
 import { UserMutationTypes } from './mutation-types'
 import { NetEasyActionTypes } from './action-types'
-import { loginRequest, userInfoRequest } from '@/apis/user'
+import { loginRequest, userInfoRequest } from '@/apis/netEasy'
 import { removeToken, setToken } from '@/utils/cookies'
 import { PermissionActionType } from '../permission/action-types'
 import router, { resetRouter } from '@/router'
@@ -22,10 +22,10 @@ type AugmentedActionContext = {
     key: K,
     payload: Parameters<Mutations[K]>[1],
   ): ReturnType<Mutations[K]>
-} & Omit<ActionContext<UserState, RootState>, 'commit'>
+} & Omit<ActionContext<NetEasyState, RootState>, 'commit'>
 
 export interface Actions {
-  [NetEasyActionTypes.ACTION_LOGIN](
+  [NetEasyActionTypes.ACTION_NET_EASY_LOGIN](
     { commit }: AugmentedActionContext,
     userInfo: { email: string, password: string }
   ): void
@@ -34,7 +34,7 @@ export interface Actions {
     { commit }: AugmentedActionContext
   ): void
 
-  [NetEasyActionTypes.ACTION_GET_USER_INFO](
+  [NetEasyActionTypes.ACTION_GET_NE_USER_INFO](
     { commit }: AugmentedActionContext
   ): void
 
@@ -47,8 +47,8 @@ export interface Actions {
   ): void
 }
 
-export const actions: ActionTree<UserState, RootState> & Actions = {
-  async [NetEasyActionTypes.ACTION_LOGIN](
+export const actions: ActionTree<NetEasyState, RootState> & Actions = {
+  async [NetEasyActionTypes.ACTION_NET_EASY_LOGIN](
     { commit }: AugmentedActionContext,
     userInfo: { email: string, password: string }
   ) {
@@ -56,14 +56,20 @@ export const actions: ActionTree<UserState, RootState> & Actions = {
       email,
       password
     } = userInfo
+    console.log(userInfo, 'userInfo')
+    const a = 0
+    if (a > 3) {
+      commit(UserMutationTypes.SET_TOKEN, 'res.data.accessToken')
+    }
     email = email.trim()
     await loginRequest({
       email,
       password
     }).then(async(res) => {
+      console.log(res, 'res')
       if (res?.code === 0 && res.data.accessToken) {
-        setToken(res.data.accessToken)
-        commit(UserMutationTypes.SET_TOKEN, res.data.accessToken)
+        // setToken(res.data.accessToken)
+        // commit(UserMutationTypes.SET_TOKEN, res.data.accessToken)
       }
     }).catch((err) => {
       console.log(err)
@@ -77,24 +83,29 @@ export const actions: ActionTree<UserState, RootState> & Actions = {
     commit(UserMutationTypes.SET_ROLES, [])
   },
 
-  async [NetEasyActionTypes.ACTION_GET_USER_INFO](
+  async [NetEasyActionTypes.ACTION_GET_NE_USER_INFO](
     { commit }: AugmentedActionContext
   ) {
     if (state.token === '') {
       throw Error('token is undefined!')
     }
-    await userInfoRequest().then((res) => {
-      if (res?.code === 0) {
-        commit(UserMutationTypes.SET_ROLES, res.data.roles)
-        commit(UserMutationTypes.SET_NAME, res.data.name)
-        commit(UserMutationTypes.SET_AVATAR, res.data.avatar)
-        commit(UserMutationTypes.SET_INTRODUCTION, res.data.introduction)
-        commit(UserMutationTypes.SET_EMAIL, res.data.email)
-        return res
-      } else {
-        throw Error('Verification failed, please Login again.')
-      }
-    })
+    const a = 0
+    if (a > 3) {
+      commit(UserMutationTypes.SET_TOKEN, 'res.data.accessToken')
+      await userInfoRequest()
+    }
+    // await userInfoRequest().then((res) => {
+    //   if (res?.code === 0) {
+    //     commit(UserMutationTypes.SET_ROLES, res.data.roles)
+    //     commit(UserMutationTypes.SET_NAME, res.data.name)
+    //     commit(UserMutationTypes.SET_AVATAR, res.data.avatar)
+    //     commit(UserMutationTypes.SET_INTRODUCTION, res.data.introduction)
+    //     commit(UserMutationTypes.SET_EMAIL, res.data.email)
+    //     return res
+    //   } else {
+    //     throw Error('Verification failed, please Login again.')
+    //   }
+    // })
   },
 
   async [NetEasyActionTypes.ACTION_CHANGE_ROLES](
@@ -105,7 +116,7 @@ export const actions: ActionTree<UserState, RootState> & Actions = {
     const store = useStore()
     commit(UserMutationTypes.SET_TOKEN, token)
     setToken(token)
-    // await store.dispatch(NetEasyActionTypes.ACTION_GET_USER_INFO, undefined)
+    await store.dispatch(NetEasyActionTypes.ACTION_GET_NE_USER_INFO, undefined)
     store.dispatch(PermissionActionType.ACTION_SET_ROUTES, state.roles)
     store.state.permission.dynamicRoutes.forEach((item: RouteRecordRaw) => {
       router.addRoute(item)

@@ -35,15 +35,15 @@ app.use(koaBody());
 app.use( async (ctx,next)=>{
   await next()
   // log4.debug(chalk.green('请求路径:  ') + ctx.request.url);
-  log4.debug(chalk.green('请求body:  ') + JSON.stringify(ctx.request.body));
-  log4.debug(chalk.green('返回数据:  ')+ JSON.stringify(ctx.body));
+  log4.debug(chalk.green('请求body:  ') + JSON.stringify(ctx.request.body))
+  log4.debug(chalk.green('返回数据:  ') + JSON.stringify(ctx.body))
 })
 
-app.use(ResultHandler());
+app.use(ResultHandler())
 //加载路由
-addRouter(router);
+addRouter(router)
 //启动路由
-app.use(router.routes()).use(router.allowedMethods());
+app.use(router.routes()).use(router.allowedMethods())
 
 app.use(async (ctx: Context) => {
   log4.error(`404 ${ctx.message} : ${ctx.href}`);
@@ -52,14 +52,14 @@ app.use(async (ctx: Context) => {
 });
 
 // koa already had middleware to deal with the error, just register the error event
-app.on("error", (err, ctx: Context) => {
-  log4.error(err); //log all errors
-  ctx.status = 500;
-  if (ctx.app.env !== "development") {
+app.on('error', (err, ctx: Context) => {
+  log4.error(err) //log all errors
+  ctx.status = 500
+  if (ctx.app.env !== 'development') {
     //throw the error to frontEnd when in the develop mode
-    ctx.res.end(err.stack); //finish the response
+    ctx.res.end(err.stack) //finish the response
   }
-});
+})
 
 
 app.listen(port, () => {

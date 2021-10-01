@@ -11,6 +11,7 @@ export const checkPermission = (value: string[]): boolean => {
   if (value && value instanceof Array && value.length > 0) {
     const roles = useStore().state.user.roles
     const permissionRoles = value
+    // const permissionRoles = ['admin']
     const hasPermission = roles.some(role => {
       return permissionRoles.includes(role)
     })

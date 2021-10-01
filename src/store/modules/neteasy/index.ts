@@ -17,11 +17,11 @@ import { RootState } from '@/store'
 import { state } from './state'
 import { mutations, Mutations } from './mutations'
 import { actions, Actions } from './actions'
-import type { UserState } from './state'
+import type { NetEasyState } from './state'
 
-export { UserState }
+export { NetEasyState }
 
-export type UserStore<S = UserState> = Omit<VuexStore<S>, 'getters' | 'commit' | 'dispatch'>
+export type NetEasyStore<S = NetEasyState> = Omit<VuexStore<S>, 'getters' | 'commit' | 'dispatch'>
   & {
   commit<K extends keyof Mutations, P extends Parameters<Mutations[K]>[1]>(
     key: K,
@@ -35,7 +35,7 @@ export type UserStore<S = UserState> = Omit<VuexStore<S>, 'getters' | 'commit' |
     options?: DispatchOptions
   ): ReturnType<Actions[K]>
 };
-export const store: Module<UserState, RootState> = {
+export const store: Module<NetEasyState, RootState> = {
   state,
   mutations,
   actions

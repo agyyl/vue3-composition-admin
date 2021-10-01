@@ -24,15 +24,17 @@ const _header: Headers = {
 }
 
 export interface NetworkConfig{
-    host?: string
-    timeout?: number
-    loading?: false
-    errorShowType?: InfoShowType
-    header?: {}
+  host?: string
+  nHost?: string
+  timeout?: number
+  loading?: false
+  errorShowType?: InfoShowType
+  header?: {}
 }
 
 const networkConfig: NetworkConfig = {
   host: process.env.VUE_APP_BASE_API,
+  nHost: 'http://localhost:3000/',
   timeout: 10000,
   loading: false,
   errorShowType: InfoShowType.LOG,
